@@ -1,27 +1,18 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const { protect } = require('../middleware/auth');
-
 const router = express.Router();
-
-// Generate JWT Token
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
-};
+const { protect, generateToken } = require('../middleware/auth');
+const User = require('../models/User');
 
 // Register user
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
 
-    // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Create user
     const user = await User.create({
       name,
       email,
@@ -51,8 +42,6 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Check for user
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
@@ -73,7 +62,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Get current user
+// Protected routes
 router.get('/me', protect, async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');
@@ -84,7 +73,6 @@ router.get('/me', protect, async (req, res) => {
   }
 });
 
-// Update user profile
 router.put('/profile', protect, async (req, res) => {
   try {
     const user = await User.findById(req.user._id);

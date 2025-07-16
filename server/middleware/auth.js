@@ -1,113 +1,68 @@
-const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const { protect } = require('../middleware/auth');
 
-const router = express.Router();
+// Authentication middleware
+const protect = async (req, res, next) => {
+  try {
+    let token;
+    
+    // Check for token in Authorization header
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+    
+    if (!token) {
+      return res.status(401).json({ 
+        success: false,
+        message: 'Not authorized, no token provided'
+      });
+    }
 
-// Generate JWT Token
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    
+    // Get user from database and attach to request
+    req.user = await User.findById(decoded.id).select('-password');
+    
+    if (!req.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'User belonging to this token no longer exists'
+      });
+    }
+    
+    next();
+  } catch (error) {
+    console.error('Authentication error:', error);
+    return res.status(401).json({ 
+      success: false,
+      message: 'Not authorized, token failed'
+    });
+  }
 };
 
-// Register user
-router.post('/register', async (req, res) => {
-  try {
-    const { name, email, password, role } = req.body;
-
-    // Check if user already exists
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
-    }
-
-    // Create user
-    const user = await User.create({
-      name,
-      email,
-      password,
-      role: role || 'student'
-    });
-
-    if (user) {
-      const token = generateToken(user._id);
-      res.status(201).json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        token
+// Role-based authorization middleware
+const authorize = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).json({
+        success: false,
+        message: `User role ${req.user.role} is not authorized to access this route`
       });
-    } else {
-      res.status(400).json({ message: 'Invalid user data' });
     }
-  } catch (error) {
-    console.error('Registration error:', error);
-    res.status(500).json({ message: 'Server error during registration' });
-  }
-});
+    next();
+  };
+};
 
-// Login user
-router.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+// Token generation utility
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, { 
+    expiresIn: process.env.JWT_EXPIRE || '30d'
+  });
+};
 
-    // Check for user
-    const user = await User.findOne({ email });
-
-    if (user && (await user.matchPassword(password))) {
-      const token = generateToken(user._id);
-      res.json({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        token
-      });
-    } else {
-      res.status(401).json({ message: 'Invalid credentials' });
-    }
-  } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ message: 'Server error during login' });
-  }
-});
-
-// Get current user
-router.get('/me', protect, async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id).select('-password');
-    res.json(user);
-  } catch (error) {
-    console.error('Get user error:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// Update user profile
-router.put('/profile', protect, async (req, res) => {
-  try {
-    const user = await User.findById(req.user._id);
-
-    if (user) {
-      user.name = req.body.name || user.name;
-      user.profile = { ...user.profile, ...req.body.profile };
-
-      const updatedUser = await user.save();
-      res.json({
-        _id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-        role: updatedUser.role,
-        profile: updatedUser.profile
-      });
-    } else {
-      res.status(404).json({ message: 'User not found' });
-    }
-  } catch (error) {
-    console.error('Update profile error:', error);
-    res.status(500).json({ message: 'Server error during profile update' });
-  }
-});
-
-module.exports = router;
+module.exports = { 
+  protect, 
+  authorize, 
+  generateToken 
+};
