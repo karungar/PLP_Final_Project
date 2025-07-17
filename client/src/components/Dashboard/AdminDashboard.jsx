@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { authAPI, adminAPI } from '@/services/api';  // Import authAPI and adminAPI
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,11 +17,11 @@ import {
   ExclamationTriangleIcon,
   ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
-import { adminAPI } from '@/lib/api';
 
 export const AdminDashboard = () => {
-  const { user } = useAuth();
+  const [user, setUser] = useState(null); // user from authAPI
   const navigate = useNavigate();
+
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalStudents: 0,
@@ -30,10 +30,21 @@ export const AdminDashboard = () => {
     activeJobs: 0,
     totalApplications: 0
   });
+
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await authAPI.getCurrentUser(); // Adjust if method name differs
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchUser();
     fetchStats();
     fetchUsers();
   }, []);

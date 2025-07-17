@@ -84,7 +84,7 @@ export const Footer = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © 2024 AfriBridge. All rights reserved. Connecting Kenya to Japan.
+            © 2025 AfriBridge. All rights reserved. Connecting Africa to Japan.
           </p>
         </div>
       </div>

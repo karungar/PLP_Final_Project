@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { authAPI, jobsAPI } from '@/services/api';  // import authAPI here
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,30 +17,34 @@ import {
   MapPinIcon,
   CalendarIcon
 } from '@heroicons/react/24/outline';
-import { jobsAPI } from '@/lib/api';
 
 export const EmployerDashboard = () => {
-  const { user } = useAuth();
+  const [user, setUser] = useState(null); // store current user here
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchJobs();
-  }, []);
+    const fetchUserAndJobs = async () => {
+      try {
+        const userResponse = await authAPI.getCurrentUser();  // fetch current user from API
+        setUser(userResponse.data);
 
-  const fetchJobs = async () => {
-    try {
-      const response = await jobsAPI.getJobs();
-      // Filter jobs posted by this employer
-      const employerJobs = response.data.filter((job) => job.postedBy._id === user?._id);
-      setJobs(employerJobs);
-    } catch (error) {
-      console.error('Error fetching jobs:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        const jobsResponse = await jobsAPI.getJobs();
+        // Filter jobs posted by this employer
+        const employerJobs = jobsResponse.data.filter(
+          (job) => job.postedBy._id === userResponse.data._id
+        );
+        setJobs(employerJobs);
+      } catch (error) {
+        console.error('Error fetching user or jobs:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserAndJobs();
+  }, []);
 
   const getJobStats = () => {
     const active = jobs.filter((job) => job.status === 'active').length;

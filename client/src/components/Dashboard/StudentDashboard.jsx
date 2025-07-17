@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { authAPI, applicationsAPI } from '@/services/api';  // import authAPI here
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -14,27 +14,29 @@ import {
   ExclamationCircleIcon,
   EyeIcon
 } from '@heroicons/react/24/outline';
-import { applicationsAPI } from '@/lib/api';
 
 export const StudentDashboard = () => {
-  const { user } = useAuth();
+  const [user, setUser] = useState(null);
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchApplications();
-  }, []);
+    const fetchUserAndApplications = async () => {
+      try {
+        const userResponse = await authAPI.getCurrentUser();
+        setUser(userResponse.data);
 
-  const fetchApplications = async () => {
-    try {
-      const response = await applicationsAPI.getMyApplications();
-      setApplications(response.data);
-    } catch (error) {
-      console.error('Error fetching applications:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        const appsResponse = await applicationsAPI.getMyApplications();
+        setApplications(appsResponse.data);
+      } catch (error) {
+        console.error('Error fetching user or applications:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserAndApplications();
+  }, []);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -68,7 +70,9 @@ export const StudentDashboard = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.name}!</h1>
+        <h1 className="text-3xl font-bold text-gray-900">
+          Welcome back, {user?.name || 'Student'}!
+        </h1>
         <p className="text-gray-600 mt-2">Track your applications and progress towards your Japanese career.</p>
       </div>
 
