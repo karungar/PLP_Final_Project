@@ -69,29 +69,14 @@ export const authAPI = {
     api.put('/auth/profile', profileData),
 };
 
-//
-// === Jobs API ===
-export const jobsAPI = {
-  getJobs: (params) =>
-    api.get('/jobs', { params }),
-
-  getJob: (id) =>
-    api.get(`/jobs/${id}`),
-
-  createJob: (jobData) =>
-    api.post('/jobs', jobData),
-
-  updateJob: (id, jobData) =>
-    api.put(`/jobs/${id}`, jobData),
-
-  deleteJob: (id) =>
-    api.delete(`/jobs/${id}`),
-
-  applyForJob: (id, applicationData) =>
-    api.post(`/jobs/${id}/apply`, applicationData),
-
-  getJobApplications: (id) =>
-    api.get(`/jobs/${id}/applications`),
+export const opportunitiesAPI = {
+  getOpportunities: (params) => api.get('/opportunities', { params }),
+  getOpportunity: (id) => api.get(`/opportunities/${id}`),
+  createOpportunity: (data) => api.post('/opportunities', data),
+  updateOpportunity: (id, data) => api.put(`/opportunities/${id}`, data),
+  deleteOpportunity: (id) => api.delete(`/opportunities/${id}`),
+  apply: (id, applicationData) => api.post(`/opportunities/${id}/apply`, applicationData),
+  getApplicationsForOpportunity: (id) => api.get(`/opportunities/${id}/applications`),
 };
 
 //
@@ -116,8 +101,8 @@ export const adminAPI = {
   toggleUserStatus: (id) =>
     api.put(`/admin/users/${id}/toggle-status`),
 
-  getJobs: () =>
-    api.get('/admin/jobs'),
+  getOpportunities: () =>
+    api.get('/admin/opportunities'),
 
   getApplications: () =>
     api.get('/admin/applications'),

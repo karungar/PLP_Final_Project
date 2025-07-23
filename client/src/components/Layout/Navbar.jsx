@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../auth/useAuth';
 import ThemeToggle from '../ThemeToggle'; // Import ThemeToggle
 
 const Navbar = () => {
