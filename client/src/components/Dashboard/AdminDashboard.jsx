@@ -1,27 +1,33 @@
 // import { useState, useEffect } from 'react';
-// import { authAPI, adminAPI } from '@/services/api';  // Import authAPI and adminAPI
 // import { useNavigate } from 'react-router-dom';
-// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+// import { authAPI, adminAPI } from '@/services/api';
+
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardHeader,
+//   CardTitle
+// } from '@/components/ui/card';
 // import { Button } from '@/components/ui/button';
 // import { Badge } from '@/components/ui/badge';
-// import { 
-//   UserGroupIcon,
-//   BriefcaseIcon,
-//   ChartBarIcon,
-//   ShieldCheckIcon,
-//   UserPlusIcon,
-//   UserMinusIcon,
-//   BuildingOfficeIcon,
-//   AcademicCapIcon,
-//   Cog6ToothIcon,
-//   ExclamationTriangleIcon,
-//   ArrowTrendingUpIcon
-// } from '@heroicons/react/24/outline';
+
+// import {
+//   Users,
+//   Briefcase,
+//   BarChart2,
+//   ShieldCheck,
+//   UserPlus,
+//   UserMinus,
+//   Building,
+//   GraduationCap,
+//   Settings,
+//   AlertTriangle,
+//   TrendingUp
+// } from 'lucide-react';
 
 // export const AdminDashboard = () => {
-//   const [user, setUser] = useState(null); // user from authAPI
-//   const navigate = useNavigate();
-
+//   const [user, setUser] = useState(null);
 //   const [stats, setStats] = useState({
 //     totalUsers: 0,
 //     totalStudents: 0,
@@ -30,14 +36,14 @@
 //     activeJobs: 0,
 //     totalApplications: 0
 //   });
-
 //   const [users, setUsers] = useState([]);
 //   const [loading, setLoading] = useState(true);
+//   const navigate = useNavigate();
 
 //   useEffect(() => {
 //     const fetchUser = async () => {
 //       try {
-//         const response = await authAPI.getCurrentUser(); // Adjust if method name differs
+//         const response = await authAPI.getCurrentUser();
 //         setUser(response.data);
 //       } catch (error) {
 //         console.error('Error fetching user:', error);
@@ -80,19 +86,27 @@
 
 //   const getRoleColor = (role) => {
 //     switch (role) {
-//       case 'student': return 'bg-blue-100 text-blue-800';
-//       case 'employer': return 'bg-green-100 text-green-800';
-//       case 'admin': return 'bg-purple-100 text-purple-800';
-//       default: return 'bg-gray-100 text-gray-800';
+//       case 'student':
+//         return 'bg-blue-100 text-blue-800';
+//       case 'employer':
+//         return 'bg-green-100 text-green-800';
+//       case 'admin':
+//         return 'bg-purple-100 text-purple-800';
+//       default:
+//         return 'bg-gray-100 text-gray-800';
 //     }
 //   };
 
 //   const getRoleIcon = (role) => {
 //     switch (role) {
-//       case 'student': return <AcademicCapIcon className="w-4 h-4" />;
-//       case 'employer': return <BuildingOfficeIcon className="w-4 h-4" />;
-//       case 'admin': return <ShieldCheckIcon className="w-4 h-4" />;
-//       default: return <UserGroupIcon className="w-4 h-4" />;
+//       case 'student':
+//         return <GraduationCap className="w-4 h-4" />;
+//       case 'employer':
+//         return <Building className="w-4 h-4" />;
+//       case 'admin':
+//         return <ShieldCheck className="w-4 h-4" />;
+//       default:
+//         return <Users className="w-4 h-4" />;
 //     }
 //   };
 
@@ -103,178 +117,62 @@
 //         <p className="text-gray-600 mt-2">Monitor and manage the platform.</p>
 //       </div>
 
-//       {/* Platform Stats */}
+//       {/* Stats */}
 //       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardContent className="p-6">
-//             <div className="flex items-center justify-between">
-//               <div>
-//                 <p className="text-sm font-medium text-gray-600">Total Users</p>
-//                 <p className="text-2xl font-bold text-gray-900">{stats.totalUsers}</p>
-//               </div>
-//               <div className="p-3 bg-blue-100 rounded-full">
-//                 <UserGroupIcon className="w-6 h-6 text-blue-600" />
-//               </div>
-//             </div>
-//           </CardContent>
-//         </Card>
-
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardContent className="p-6">
-//             <div className="flex items-center justify-between">
-//               <div>
-//                 <p className="text-sm font-medium text-gray-600">Students</p>
-//                 <p className="text-2xl font-bold text-gray-900">{stats.totalStudents}</p>
-//               </div>
-//               <div className="p-3 bg-green-100 rounded-full">
-//                 <AcademicCapIcon className="w-6 h-6 text-green-600" />
-//               </div>
-//             </div>
-//           </CardContent>
-//         </Card>
-
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardContent className="p-6">
-//             <div className="flex items-center justify-between">
-//               <div>
-//                 <p className="text-sm font-medium text-gray-600">Employers</p>
-//                 <p className="text-2xl font-bold text-gray-900">{stats.totalEmployers}</p>
-//               </div>
-//               <div className="p-3 bg-purple-100 rounded-full">
-//                 <BuildingOfficeIcon className="w-6 h-6 text-purple-600" />
-//               </div>
-//             </div>
-//           </CardContent>
-//         </Card>
-
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardContent className="p-6">
-//             <div className="flex items-center justify-between">
-//               <div>
-//                 <p className="text-sm font-medium text-gray-600">Total Jobs</p>
-//                 <p className="text-2xl font-bold text-gray-900">{stats.totalJobs}</p>
-//               </div>
-//               <div className="p-3 bg-orange-100 rounded-full">
-//                 <BriefcaseIcon className="w-6 h-6 text-orange-600" />
-//               </div>
-//             </div>
-//           </CardContent>
-//         </Card>
-
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardContent className="p-6">
-//             <div className="flex items-center justify-between">
-//               <div>
-//                 <p className="text-sm font-medium text-gray-600">Active Jobs</p>
-//                 <p className="text-2xl font-bold text-gray-900">{stats.activeJobs}</p>
-//               </div>
-//               <div className="p-3 bg-emerald-100 rounded-full">
-//                 <ArrowTrendingUpIcon className="w-6 h-6 text-emerald-600" />
-//               </div>
-//             </div>
-//           </CardContent>
-//         </Card>
-
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardContent className="p-6">
-//             <div className="flex items-center justify-between">
-//               <div>
-//                 <p className="text-sm font-medium text-gray-600">Applications</p>
-//                 <p className="text-2xl font-bold text-gray-900">{stats.totalApplications}</p>
-//               </div>
-//               <div className="p-3 bg-red-100 rounded-full">
-//                 <ChartBarIcon className="w-6 h-6 text-red-600" />
-//               </div>
-//             </div>
-//           </CardContent>
-//         </Card>
+//         <StatCard label="Total Users" value={stats.totalUsers} Icon={Users} color="text-blue-600" bg="bg-blue-100" />
+//         <StatCard label="Students" value={stats.totalStudents} Icon={GraduationCap} color="text-green-600" bg="bg-green-100" />
+//         <StatCard label="Employers" value={stats.totalEmployers} Icon={Building} color="text-purple-600" bg="bg-purple-100" />
+//         <StatCard label="Total Jobs" value={stats.totalJobs} Icon={Briefcase} color="text-orange-600" bg="bg-orange-100" />
+//         <StatCard label="Active Jobs" value={stats.activeJobs} Icon={TrendingUp} color="text-emerald-600" bg="bg-emerald-100" />
+//         <StatCard label="Applications" value={stats.totalApplications} Icon={BarChart2} color="text-red-600" bg="bg-red-100" />
 //       </div>
 
 //       {/* Quick Actions */}
 //       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardHeader>
-//             <CardTitle className="flex items-center gap-2">
-//               <UserGroupIcon className="w-5 h-5" />
-//               Manage Users
-//             </CardTitle>
-//             <CardDescription>
-//               View and manage all platform users
-//             </CardDescription>
-//           </CardHeader>
-//           <CardContent>
-//             <Button onClick={() => navigate('/admin/users')} className="w-full">
-//               View All Users
-//             </Button>
-//           </CardContent>
-//         </Card>
-
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardHeader>
-//             <CardTitle className="flex items-center gap-2">
-//               <BriefcaseIcon className="w-5 h-5" />
-//               Job Management
-//             </CardTitle>
-//             <CardDescription>
-//               Oversee all job postings and applications
-//             </CardDescription>
-//           </CardHeader>
-//           <CardContent>
-//             <Button onClick={() => navigate('/admin/jobs')} className="w-full" variant="outline">
-//               Manage Jobs
-//             </Button>
-//           </CardContent>
-//         </Card>
-
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardHeader>
-//             <CardTitle className="flex items-center gap-2">
-//               <ChartBarIcon className="w-5 h-5" />
-//               Analytics
-//             </CardTitle>
-//             <CardDescription>
-//               Platform analytics and reporting
-//             </CardDescription>
-//           </CardHeader>
-//           <CardContent>
-//             <Button onClick={() => navigate('/admin/analytics')} className="w-full" variant="outline">
-//               View Analytics
-//             </Button>
-//           </CardContent>
-//         </Card>
-
-//         <Card className="hover:shadow-md transition-shadow">
-//           <CardHeader>
-//             <CardTitle className="flex items-center gap-2">
-//               <Cog6ToothIcon className="w-5 h-5" />
-//               System Settings
-//             </CardTitle>
-//             <CardDescription>
-//               Configure platform settings
-//             </CardDescription>
-//           </CardHeader>
-//           <CardContent>
-//             <Button onClick={() => navigate('/admin/settings')} className="w-full" variant="outline">
-//               Settings
-//             </Button>
-//           </CardContent>
-//         </Card>
+//         <QuickActionCard
+//           title="Manage Users"
+//           Icon={Users}
+//           description="View and manage all platform users"
+//           buttonLabel="View All Users"
+//           onClick={() => navigate('/admin/users')}
+//         />
+//         <QuickActionCard
+//           title="Job Management"
+//           Icon={Briefcase}
+//           description="Oversee all job postings and applications"
+//           buttonLabel="Manage Jobs"
+//           onClick={() => navigate('/admin/jobs')}
+//           variant="outline"
+//         />
+//         <QuickActionCard
+//           title="Analytics"
+//           Icon={BarChart2}
+//           description="Platform analytics and reporting"
+//           buttonLabel="View Analytics"
+//           onClick={() => navigate('/admin/analytics')}
+//           variant="outline"
+//         />
+//         <QuickActionCard
+//           title="System Settings"
+//           Icon={Settings}
+//           description="Configure platform settings"
+//           buttonLabel="Settings"
+//           onClick={() => navigate('/admin/settings')}
+//           variant="outline"
+//         />
 //       </div>
 
-//       {/* Recent Activity */}
+//       {/* Recent Users & System Health */}
 //       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-//         {/* Recent Users */}
 //         <Card>
-//           <CardHeader>
-//             <div className="flex justify-between items-center">
-//               <div>
-//                 <CardTitle>Recent Users</CardTitle>
-//                 <CardDescription>Newly registered users</CardDescription>
-//               </div>
-//               <Button onClick={() => navigate('/admin/users')} variant="outline" size="sm">
-//                 View All
-//               </Button>
+//           <CardHeader className="flex justify-between items-center">
+//             <div>
+//               <CardTitle>Recent Users</CardTitle>
+//               <CardDescription>Newly registered users</CardDescription>
 //             </div>
+//             <Button onClick={() => navigate('/admin/users')} variant="outline" size="sm">
+//               View All
+//             </Button>
 //           </CardHeader>
 //           <CardContent>
 //             {loading ? (
@@ -283,7 +181,7 @@
 //               </div>
 //             ) : users.length === 0 ? (
 //               <div className="text-center py-8">
-//                 <UserGroupIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+//                 <Users className="w-12 h-12 text-gray-400 mx-auto mb-4" />
 //                 <p className="text-gray-500">No users found</p>
 //               </div>
 //             ) : (
@@ -291,12 +189,10 @@
 //                 {users.map((user) => (
 //                   <div key={user._id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors">
 //                     <div className="flex items-center space-x-3">
-//                       <div className="flex-shrink-0">
-//                         <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
-//                           <span className="text-white text-sm font-medium">
-//                             {user.name.charAt(0).toUpperCase()}
-//                           </span>
-//                         </div>
+//                       <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+//                         <span className="text-white text-sm font-medium">
+//                           {user.name.charAt(0).toUpperCase()}
+//                         </span>
 //                       </div>
 //                       <div>
 //                         <h3 className="font-medium text-gray-900">{user.name}</h3>
@@ -315,7 +211,11 @@
 //                         size="sm"
 //                         onClick={() => handleToggleUserStatus(user._id)}
 //                       >
-//                         {user.isActive ? <UserPlusIcon className="w-4 h-4 text-green-600" /> : <UserMinusIcon className="w-4 h-4 text-red-600" />}
+//                         {user.isActive ? (
+//                           <UserPlus className="w-4 h-4 text-green-600" />
+//                         ) : (
+//                           <UserMinus className="w-4 h-4 text-red-600" />
+//                         )}
 //                       </Button>
 //                     </div>
 //                   </div>
@@ -325,62 +225,90 @@
 //           </CardContent>
 //         </Card>
 
-//         {/* System Health */}
 //         <Card>
 //           <CardHeader>
 //             <CardTitle>System Health</CardTitle>
 //             <CardDescription>Platform status and alerts</CardDescription>
 //           </CardHeader>
-//           <CardContent>
-//             <div className="space-y-4">
-//               <div className="flex items-center justify-between p-3 bg-green-50 border border-green-200 rounded-lg">
-//                 <div className="flex items-center gap-3">
-//                   <div className="p-2 bg-green-100 rounded-full">
-//                     <ShieldCheckIcon className="w-4 h-4 text-green-600" />
-//                   </div>
-//                   <div>
-//                     <p className="font-medium text-green-900">System Online</p>
-//                     <p className="text-sm text-green-600">All services operational</p>
-//                   </div>
-//                 </div>
-//                 <Badge variant="outline" className="bg-green-100 text-green-800">
-//                   Healthy
-//                 </Badge>
-//               </div>
-
-//               <div className="flex items-center justify-between p-3 bg-blue-50 border border-blue-200 rounded-lg">
-//                 <div className="flex items-center gap-3">
-//                   <div className="p-2 bg-blue-100 rounded-full">
-//                     <ChartBarIcon className="w-4 h-4 text-blue-600" />
-//                   </div>
-//                   <div>
-//                     <p className="font-medium text-blue-900">Database</p>
-//                     <p className="text-sm text-blue-600">Connection stable</p>
-//                   </div>
-//                 </div>
-//                 <Badge variant="outline" className="bg-blue-100 text-blue-800">
-//                   Active
-//                 </Badge>
-//               </div>
-
-//               <div className="flex items-center justify-between p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-//                 <div className="flex items-center gap-3">
-//                   <div className="p-2 bg-yellow-100 rounded-full">
-//                     <ExclamationTriangleIcon className="w-4 h-4 text-yellow-600" />
-//                   </div>
-//                   <div>
-//                     <p className="font-medium text-yellow-900">Maintenance</p>
-//                     <p className="text-sm text-yellow-600">Scheduled for tonight</p>
-//                   </div>
-//                 </div>
-//                 <Badge variant="outline" className="bg-yellow-100 text-yellow-800">
-//                   Scheduled
-//                 </Badge>
-//               </div>
-//             </div>
+//           <CardContent className="space-y-4">
+//             <SystemHealthCard
+//               icon={<ShieldCheck className="w-4 h-4 text-green-600" />}
+//               title="System Online"
+//               subtitle="All services operational"
+//               badgeText="Healthy"
+//               badgeColor="bg-green-100 text-green-800"
+//               bgColor="bg-green-50 border border-green-200"
+//             />
+//             <SystemHealthCard
+//               icon={<BarChart2 className="w-4 h-4 text-blue-600" />}
+//               title="Database"
+//               subtitle="Connection stable"
+//               badgeText="Active"
+//               badgeColor="bg-blue-100 text-blue-800"
+//               bgColor="bg-blue-50 border border-blue-200"
+//             />
+//             <SystemHealthCard
+//               icon={<AlertTriangle className="w-4 h-4 text-yellow-600" />}
+//               title="Maintenance"
+//               subtitle="Scheduled for tonight"
+//               badgeText="Scheduled"
+//               badgeColor="bg-yellow-100 text-yellow-800"
+//               bgColor="bg-yellow-50 border border-yellow-200"
+//             />
 //           </CardContent>
 //         </Card>
 //       </div>
 //     </div>
 //   );
 // };
+
+// // Reusable StatCard
+// const StatCard = ({ label, value, Icon, color, bg }) => (
+//   <Card className="hover:shadow-md transition-shadow">
+//     <CardContent className="p-6">
+//       <div className="flex items-center justify-between">
+//         <div>
+//           <p className="text-sm font-medium text-gray-600">{label}</p>
+//           <p className="text-2xl font-bold text-gray-900">{value}</p>
+//         </div>
+//         <div className={`p-3 rounded-full ${bg}`}>
+//           <Icon className={`w-6 h-6 ${color}`} />
+//         </div>
+//       </div>
+//     </CardContent>
+//   </Card>
+// );
+
+// // Reusable QuickActionCard
+// const QuickActionCard = ({ title, description, Icon, buttonLabel, onClick, variant = "default" }) => (
+//   <Card className="hover:shadow-md transition-shadow">
+//     <CardHeader>
+//       <CardTitle className="flex items-center gap-2">
+//         <Icon className="w-5 h-5" />
+//         {title}
+//       </CardTitle>
+//       <CardDescription>{description}</CardDescription>
+//     </CardHeader>
+//     <CardContent>
+//       <Button onClick={onClick} className="w-full" variant={variant}>
+//         {buttonLabel}
+//       </Button>
+//     </CardContent>
+//   </Card>
+// );
+
+// // Reusable SystemHealthCard
+// const SystemHealthCard = ({ icon, title, subtitle, badgeText, badgeColor, bgColor }) => (
+//   <div className={`flex items-center justify-between p-3 rounded-lg ${bgColor}`}>
+//     <div className="flex items-center gap-3">
+//       <div className="p-2 rounded-full bg-opacity-10">{icon}</div>
+//       <div>
+//         <p className="font-medium">{title}</p>
+//         <p className="text-sm text-muted-foreground">{subtitle}</p>
+//       </div>
+//     </div>
+//     <Badge variant="outline" className={badgeColor}>
+//       {badgeText}
+//     </Badge>
+//   </div>
+// );
