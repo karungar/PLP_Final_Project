@@ -1,57 +1,42 @@
-require('dotenv').config();
 const express = require('express');
+const dotenv = require('dotenv');
 const cors = require('cors');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
 const connectDB = require('./config/db');
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+const userRoutes = require('./routes/userRoutes');
 
+// Load environment variables
+dotenv.config();
 
 // Connect to database
 connectDB();
 
+// Initialize Express
 const app = express();
 
-// Security middleware
-app.use(helmet());
-
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later'
-});
-app.use('/api/', limiter);
-
-// CORS configuration
-app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
-  credentials: true
-}));
-
-// Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Routes
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/jobs', require('./routes/jobs'));
-app.use('/api/applications', require('./routes/applications'));
-app.use('/api/admin', require('./routes/admin'));
+app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/opportunities', require('./routes/opportunityRoutes'));
+app.use('/api/talents', require('./routes/talentRoutes'));
+app.use('/api/applications', require('./routes/applicationRoutes'));
+app.use('/api/contacts', require('./routes/contactRoutes'));
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
+// Welcome route
+app.get('/', (req, res) => {
+  res.send('AfriBridge API is running...');
 });
 
-// 404 handler
-app.use((req, res, next) => {
-  res.status(404).json({ message: 'Route not found' });
-});
+// Error Middleware
+app.use(notFound);
+app.use(errorHandler);
 
+// Start server
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });

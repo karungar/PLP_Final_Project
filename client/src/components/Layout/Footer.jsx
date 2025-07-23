@@ -1,93 +1,87 @@
 import { Link } from 'react-router-dom';
-import {
-  AcademicCapIcon,
-  EnvelopeIcon,
-  PhoneIcon,
-  MapPinIcon
-} from '@heroicons/react/24/outline';
+import { MapPin, Phone, Mail } from 'lucide-react';
 
-export const Footer = () => {
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+  
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <footer className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <AcademicCapIcon className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold">AfriBridge</span>
-            </div>
-            <p className="text-gray-400 mb-4">
-              Connecting African talent with Japanese opportunities. Bridging cultures, 
-              building futures, and creating pathways to success in Japan.
+          {/* Logo and mission */}
+          <div className="col-span-1 md:col-span-1">
+            <Link to="/" className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+              AfriBridge
+            </Link>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+              Connecting African and Japanese cultures, businesses, and opportunities for mutual growth and innovation.
             </p>
-            <div className="flex space-x-4">
-              <div className="flex items-center space-x-2">
-                <EnvelopeIcon className="w-4 h-4" />
-                <span className="text-sm">info@afribridge.com</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <PhoneIcon className="w-4 h-4" />
-                <span className="text-sm">+254 700 000 000</span>
-              </div>
+            <div className="mt-4 flex space-x-4">
+              <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-colors duration-300">
+                {/* Social icons with dark mode */}
+              </a>
             </div>
           </div>
-
+          
+          {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 tracking-wider uppercase">
+              Quick Links
+            </h3>
+            <ul className="mt-4 space-y-2">
               <li>
-                <Link to="/jobs" className="text-gray-400 hover:text-white transition-colors">
-                  Find Jobs
+                <Link to="/" className="text-base text-gray-600 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white transition-colors duration-300">
+                  Home
                 </Link>
               </li>
-              <li>
-                <Link to="/courses" className="text-gray-400 hover:text-white transition-colors">
-                  Courses
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-gray-400 hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">
-                  Contact
-                </Link>
-              </li>
+              {/* Other links */}
             </ul>
           </div>
-
+          
+          {/* Resources */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Services</h3>
-            <ul className="space-y-2">
-              <li>
-                <span className="text-gray-400">IT Jobs</span>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 tracking-wider uppercase">
+              Resources
+            </h3>
+            <ul className="mt-4 space-y-2">
+              {/* Resource links */}
+            </ul>
+          </div>
+          
+          {/* Contact */}
+          <div>
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-200 tracking-wider uppercase">
+              Contact Us
+            </h3>
+            <ul className="mt-4 space-y-2">
+              <li className="flex items-start">
+                <MapPin className="h-6 w-6 text-gray-600 dark:text-gray-400 mr-2 flex-shrink-0" />
+                <span className="text-gray-600 dark:text-gray-400">
+                  Tokyo Office<br />
+                  Shibuya Crossing, 4F<br />
+                  Shibuya, Tokyo 150-0002
+                </span>
               </li>
-              <li>
-                <span className="text-gray-400">Hospitality</span>
+              <li className="flex items-center">
+                <Phone className="h-6 w-6 text-gray-600 dark:text-gray-400 mr-2 flex-shrink-0" />
+                <span className="text-gray-600 dark:text-gray-400">+81 3-1234-5678</span>
               </li>
-              <li>
-                <span className="text-gray-400">Care Services</span>
-              </li>
-              <li>
-                <span className="text-gray-400">Language Schools</span>
-              </li>
-              <li>
-                <span className="text-gray-400">Graduate Programs</span>
+              <li className="flex items-center">
+                <Mail className="h-6 w-6 text-gray-600 dark:text-gray-400 mr-2 flex-shrink-0" />
+                <span className="text-gray-600 dark:text-gray-400">info@afribridge.com</span>
               </li>
             </ul>
           </div>
         </div>
-
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-gray-400">
-            © 2025 AfriBridge. All rights reserved. Connecting Africa to Japan.
+        
+        <div className="mt-12 border-t border-gray-300 dark:border-gray-700 pt-8">
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
+            &copy; {currentYear} AfriBridge. All rights reserved.
           </p>
         </div>
       </div>
     </footer>
   );
 };
+
+export default Footer;

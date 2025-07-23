@@ -1,21 +1,19 @@
-import { ReactNode } from 'react';
-import { Header } from './Header';
-import { Footer } from './Footer';
-import PropTypes from 'prop-types';
+import { Outlet } from 'react-router-dom';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
-export const Layout = ({ children }) => {
+const Layout = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header />
-      <main className="flex-1">
-        {children}
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-800">
+      <Navbar />
+      
+      <main className="flex-grow">
+        <Outlet />
       </main>
+      
       <Footer />
     </div>
   );
 };
 
-// PropTypes for runtime type checking (optional if using TypeScript)
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+export default Layout;
