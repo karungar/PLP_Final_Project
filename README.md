@@ -78,24 +78,24 @@ The AfriBridge platform is a web application that promotes cultural exchange, ed
 
 ## Video Demonstration
 
-🎥 **Platform Walkthrough:** [Add your 5-10 minute video demonstration link here]
+🎥 **Platform Walkthrough:** [Video Demo](./client/public/assets/images/walk_through.mp4)
 
 ## Screenshots
 
 ### Landing Page
-![Landing Page](screenshots/landing-page.png)
+![Landing Page](./client/public/assets/images/landing_page.png)
 *The welcoming homepage showcasing the platform's mission*
 
 ### Opportunities Page
-![Opportunities Page](screenshots/opportunities-page.png)
+![Opportunities Page](./client/public/assets/images/opportunities_page.png)
 *Browse and discover various opportunities between Africa and Japan*
 
 ### Talent Page
-![Talent Page](screenshots/talent-page.png)
+![Talent Page](./client/public/assets/images/talent_page.png)
 *Connect with talented individuals across both regions*
 
 ### About Page
-![About Page](screenshots/about-page.png)
+![About Page](./client/public/assets/images/about_page.png)
 *Learn more about AfriBridge's vision and impact*
 
 ## Project Summary
